@@ -1,4 +1,5 @@
 ## Description of implementation for the Functions:
+############
 ## makeCacheMatrix(x) function will build a wrapper around the matrix in parameter and
 ## create a special object. This object is actually implemented as list of following 
 ## functions:
@@ -10,6 +11,7 @@
 ## cacheSolve(x, ...) function will accept an object returned by makeCacheMatrix(x) and
 ## check if there is already a cached value. If the cached value is present then simply
 ## return the value else use the solve(a) function to get the inverted matrix.
+############
 
 ## This function creates a special "matrix" object (which is really a list of functions) 
 ## that can cache its inverse.
@@ -27,16 +29,17 @@ makeCacheMatrix <- function(x = matrix()) {
     setinv <- function(inv) m <<- inv 
     
     getinv <- function() m ## access the variable set by setinv(inv).
+    
+    ## return the special list.
     list(set = set, get = get,
          setinv = setinv,
-         getinv = getinv) ## return the special list.
+         getinv = getinv) 
 }
 
 
 ## This function computes the inverse of the special "matrix" returned by makeCacheMatrix.
 ## If the inverse has already been calculated (and the matrix has not changed), then the 
 ## cachesolve should retrieve the inverse from the cache.
-
 cacheSolve <- function(x, ...) {
     m <- x$getinv() 
     if(!is.null(m)) {
@@ -46,7 +49,8 @@ cacheSolve <- function(x, ...) {
     data <- x$get() ## get the wrapped actual matrix object
     m <- solve(data, ...)  ## do the actual inversion.
     x$setinv(m) ## build the cache
-    ## Return a matrix that is the inverse of 'x'. Note that the return is matrix and not 
+    
+    ## Return a matrix that is the inverse of 'x'. Note that the return type is matrix and not 
     ## any special object.
     m
 }
